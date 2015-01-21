@@ -1,0 +1,88 @@
+{
+   "name": "Main",
+   "color":"#d3d3d3",
+   "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",
+   "children": [
+       
+    {
+     "name": "Folder1",
+	"color":"#d3d3d3",
+	 "size":24,
+   "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",
+     "children": [
+      {"name": "Folder1-1", "size": 20,   "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",   "color":"#d3d3d3",     
+	   "children": [
+        {"name": "File1", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"},
+		{"name": "File2", "size": 15,   "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#e88b8c"}
+		]
+	  },
+      {"name": "File3", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"},
+      {"name": "File4", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"},
+      {"name": "File5", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#96CDCD"},
+      {"name": "File6", "size": 15,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#e88b8c "}
+     ]
+    },
+       
+    {
+     "name": "Folder2",
+	 "size":24,
+	    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",
+      "color":"#d3d3d3",
+     "children": [
+      {"name": "File7", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#96CDCD"},
+      {"name": "File8", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#feba7f"},
+      {"name": "File9", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"},
+      {"name": "File10", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#7ec47e"},
+      {"name": "File11", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#e88b8c "},
+      {"name": "File12", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#feba7f"}
+     ]
+    },
+       
+       {
+     "name": "Folder3",
+	 "size":24,
+	    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",
+      "color":"#d3d3d3",
+     "children": [
+      {"name": "File13", "size": 15,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#96CDCD"},
+      {"name": "File14", "size": 25  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"},
+      {"name": "File15", "size": 20  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#e88b8c "}
+     ]
+    },
+       
+       {
+     "name": "Folder4",
+	 "size":24,
+	    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",
+      "color":"#d3d3d3",
+     "children": [
+        {"name": "Folder4-1", "size": 20,   "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",   "color":"#d3d3d3",     
+	   "children": [
+		{"name": "File16", "size": 10,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#feba7f"},
+        {"name": "File17", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"},
+        {"name": "File18", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#e88b8c "},
+		{"name": "File19", "size": 15,   "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"}
+		]
+	  },
+      {"name": "File20", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#7ec47e"},
+      {"name": "File21", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"}
+     ]
+    },
+       
+       {
+     "name": "Folder5",
+	 "size":24,
+	    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",
+      "color":"#d3d3d3",
+     "children": [
+      {"name": "File22", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#96CDCD"},
+      {"name": "File23", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#feba7f"},
+    {"name": "File3", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#96CDCD"},
+         {"name": "File24", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#e88b8c"},
+         {"name": "File25", "size": 5,        "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11", "color":"#feba7f"},
+      {"name": "File26", "size": 10  ,    "detail":"Name:a; Type:flv; size:1G; Last time to use:14/12/11",  "color":"#AEEEEE"}
+     ]
+    }
+       
+   ]
+}

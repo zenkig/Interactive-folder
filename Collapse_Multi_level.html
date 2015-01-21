@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.node circle {
+  cursor: pointer;
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.node text {
+  font: 10px sans-serif;
+  pointer-events: none;
+  text-anchor: middle;
+}
+
+line.link {
+  fill: none;
+  stroke: #9ecae1;
+  stroke-width: 1.5px;
+}
+
+</style>
+<body>
+
+<script src="d3.min.js"></script> 			<!-- d3 library -->
+<script src="zoom.js"></script>				<!-- zoom library -->
+<script src="jquery-1.11.1.js"></script>	<!-- jquery library -->
+<script type="text/javascript" src="jquery.tipsy.js"></script>	<!--add tip library -->
+<link href="tipsy.css" rel="stylesheet" type="text/css" />
+<script>
+
+$(document).ready(function () {
+
+	var width = 1160, //svg width
+	height = 600, //svg height
+	flat_bool = true,
+	old_root,
+	old_name,
+	bool = false,
+	last_scale,
+	root; //set the root
+
+	var node_root = new Array(); //save the root node after each zooming in, in order to zoom out
+	var node_name = new Array(); //save all the node which has been zooomed in
+
+	//initialize the force layout
+	var force = d3.layout.force()
+		.linkDistance(10) //set the distance between the nodes
+		.charge(-2000) //set the charge force of the link
+		.gravity(0.1) //set the gravity between nodes
+		.size([width, height]);
+
+	//initialize the svg
+	var svg = d3.select("body").append("svg")
+		.attr("class", "svg")
+		.attr("width", width)
+		.attr("height", height);
+
+	/*
+	//if svg is binded with this function, svg will zoom
+	.call(d3.behavior.zoom().on("zoom", redraw));
+	function redraw() {
+	svg.attr("transform",
+	"translate(" + d3.event.translate + ")"
+	+ " scale(" + d3.event.scale + ")");
+	}
+	 */
+
+	//get all the links and nodes
+	var link = svg.selectAll(".link"),
+	node = svg.selectAll(".node");
+
+	//load json file
+	d3.json("graph1.json", function (error, json) {
+		root = json;
+		update();
+	});
+
+	//update all the svg
+	function update() {
+
+		var nodes = flatten(root), //flatten root:find all the nodes in the tree
+		links = d3.layout.tree().links(nodes); //tree layout links(nodes)
+
+		// Restart the force layout.
+		force
+		.nodes(nodes)
+		.links(links)
+		.start();
+
+		// Update links. the current links
+		link = link.data(links, function (d) {
+				return d.target.id;
+			});
+
+		link.exit().remove();
+
+		link.enter().insert("line", ".node") //on enter
+		.attr("class", "link");
+
+		// Update nodes.
+		node = node.data(nodes, function (d) {
+				return d.id;
+			});
+
+		node.exit().remove(); //on exit
+
+		var k = 0;
+		var nodeEnter = node.enter().append("g")
+			.attr("class", "node")
+			.call(d3.behavior.zoom() //add zoom behavior to the all the nodes
+				.on("zoom", function (d) {
+
+					if (k == 0) { //k == 0 means it is the first time to use mousewheel
+						last_scale = d3.event.scale;
+						k++;
+					} else if (k == 1) {
+						if (d3.event.scale > last_scale) { //compare the scale of 2 times to determine zooming in or zooming out
+
+							name = d.name.substring(0, 4); //get the name of json file
+							k = 0;
+							if (name == "File") { //if it is file, zoom in to show the description of the file
+								imgs.style("display", "block");
+
+							} else {
+								node_name.push(d.name); //push name and root node of current node to node_name and node_root
+								node_root.push(root);
+								root = d;
+								update();
+							}
+
+						} else if (d3.event.scale < last_scale) { //zoom out
+							k = 0;
+							name = d.name.substring(0, 4);
+							if (name == "File") {
+								imgs.style("display", "none");
+							} else {
+								var i;
+								var flag = false;
+								for (i = 0; i < node_name.length; i++) {
+									if (node_name[i] == d.name) {
+										flag = true; //if the current node has a root
+										break;
+									}
+								}
+								if (flag) {
+									root = node_root[i];
+									update();
+									node_name.splice(i, 1); //remove the name and root of current node from array
+									node_root.splice(i, 1);
+								}
+							}
+						}
+					}
+				}))
+			.call(force.drag); //users can drag the nodes
+
+
+		//append circles
+		var circles = nodeEnter.append("circle")
+			.attr("class", "circle")
+			.attr("stroke", "#000000")
+			.attr("stroke-width", 2)
+			.attr("r", function (d) {
+				return d.size * 2;
+			})
+			.style("fill", function (d) {
+				return d.color;
+			})
+			.on("mouseover", function (d) {
+				d3.select(this).transition()
+				.duration(750)
+				.attr("r", d.size * 3);
+				labels.style("visibility", "hidden");
+			})
+			.on("mouseout", function (d) {
+				d3.select(this).transition()
+				.duration(750)
+				.attr("r", d.size);
+				labels.style("visibility", "visible");
+			});
+
+		//initialize an image as the description of the file
+		var j = 0;
+		var imgs = svg.append("image")
+			.attr("name", "File")
+			.attr("xlink:href", "file.jpg")
+			.attr("x", 20)
+			.attr("y", 0)
+			.attr("width", 1160)
+			.attr("height", 600)
+			.call(d3.behavior.zoom()
+				.on("zoom", function (d) {
+					if (j == 0) {
+						console.log("x " + d3.event.scale);
+						last_scale = d3.event.scale;
+						j++;
+					} else if (j == 1) {
+						if (d3.event.scale < last_scale) { //zoom out from the image to nodes
+							j = 0;
+							imgs.style("display", "none");
+						}
+					}
+				}));
+		imgs.style("display", "none");
+
+		//add tips to the circle when mouseover
+		$(".circle").tipsy({
+			gravity : 'w',
+			html : true,
+			title : function () {
+				var d = this.__data__; // loading data using "d = this..."
+				return d.detail;
+			}
+		});
+
+		//add texts to svg
+		var labels = nodeEnter.append("text")
+			.attr("dy", ".35em")
+			.text(function (d) {
+				return d.name;
+			});
+
+		//set the location of links and nodes
+		force.on("tick", function () {
+			root.x = width / 2;
+			root.y = height / 2;
+
+			link.attr("x1", function (d) {
+				return d.source.x;
+			})
+			.attr("y1", function (d) {
+				return d.source.y;
+			})
+			.attr("x2", function (d) {
+				return d.target.x;
+			})
+			.attr("y2", function (d) {
+				return d.target.y;
+			});
+
+			node.attr("transform", function (d) {
+				return "translate(" + d.x + "," + d.y + ")";
+			});
+		});
+
+	}
+
+	/*
+	// Toggle children on click.
+	function click(d) {
+	if (d3.event.defaultPrevented) return; // ignore drag
+	var i;
+	var flag = true;
+	for(i=0; i<node_name.length;i++){
+
+	if(node_name[i] == d.name){
+	flag = false;
+	break;
+	}
+	}
+	console.log("flag"+flag);
+	if(flag == false){
+	bool = false;
+	root = node_root[i];
+	update();
+	node_name.splice(i, 1);
+	node_root.splice(i, 1);
+
+	}else{
+	bool = true;
+	node_name.push(d.name);
+	node_root.push(root);
+	root = d;
+	update();
+	}
+
+	}
+	 */
+
+	// Returns a list of all nodes under the root.
+	function flatten(root) {
+		var nodes = [],
+		i = 0;
+
+		function recurse(node) {
+			if (node.children)
+				node.children.forEach(recurse);
+			if (!node.id)
+				node.id = ++i;
+			nodes.push(node);
+		}
+		recurse(root);
+		return nodes;
+	}
+});
+
+</script>
+
+<!--This script is for zoom.js	
+<script>
+	document.querySelector("body").addEventListener('click', function( event ) {
+	event.preventDefault();
+	zoom.to({ element: event.target });
+	} );
+</script>
+-->
+
+</body>
+
+
+</html>
+
+
+
+
